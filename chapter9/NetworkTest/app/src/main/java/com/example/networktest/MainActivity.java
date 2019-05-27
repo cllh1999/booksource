@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             // 指定访问的服务器地址是电脑本机
-                            .url("http://10.0.2.2/get_data.json")
+                            .url("http://www.w3school.com.cn/example/xmle/cd_catalog.xml")
                             .build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
@@ -125,29 +125,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             XmlPullParser xmlPullParser = factory.newPullParser();
             xmlPullParser.setInput(new StringReader(xmlData));
             int eventType = xmlPullParser.getEventType();
-            String id = "";
-            String name = "";
-            String version = "";
-            while (eventType != XmlPullParser.END_DOCUMENT) {
+            String title = "";
+            String artist = "";
+            String country = "";
+            String company = "";
+            String price = "";
+            String year = "";
+            while (eventType != xmlPullParser.END_DOCUMENT){
                 String nodeName = xmlPullParser.getName();
-                switch (eventType) {
-                    // 开始解析某个结点
+                switch (eventType){
+                    //开始解析某个结点
                     case XmlPullParser.START_TAG: {
-                        if ("id".equals(nodeName)) {
-                            id = xmlPullParser.nextText();
-                        } else if ("name".equals(nodeName)) {
-                            name = xmlPullParser.nextText();
-                        } else if ("version".equals(nodeName)) {
-                            version = xmlPullParser.nextText();
+                        if ("TITLE".equals(nodeName)){
+                            title = xmlPullParser.nextText();
+                        }else if ("ARTIST".equals(nodeName)){
+                            artist = xmlPullParser.nextText();
+                        }else if ("COUNTRY".equals(nodeName)){
+                            country = xmlPullParser.nextText();
+                        }else if ("COMPANY".equals(nodeName)){
+                            company = xmlPullParser.nextText();
+                        }else if ("PRICE".equals(nodeName)){
+                            price = xmlPullParser.nextText();
+                        }else if ("YEAR".equals(nodeName)){
+                            year = xmlPullParser.nextText();
                         }
                         break;
                     }
-                    // 完成解析某个结点
-                    case XmlPullParser.END_TAG: {
-                        if ("app".equals(nodeName)) {
-                            Log.d("MainActivity", "id is " + id);
-                            Log.d("MainActivity", "name is " + name);
-                            Log.d("MainActivity", "version is " + version);
+                    //完成解析结点
+                    case XmlPullParser.END_TAG:{
+                        if("CD".equals(nodeName)){
+                            Log.d("TITLE is", title);
+                            Log.d("ARTIST is", artist);
+                            Log.d("COUNTRY is", country);
+                            Log.d("COMPANY is", company);
+                            Log.d("PRICE is", price);
+                            Log.d("YEAR is", year);
                         }
                         break;
                     }
